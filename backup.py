@@ -116,18 +116,15 @@ class Backup:
     def __house_cleanning(self):
         print 'Cleanning up {name} old archives'.format(name=self.name)
 
-        hostname = re.escape(self.hostname)
+        prefix_name = re.escape('{hostname}-{name}'.format(hostname=self.hostname, name=self.name))
 
         pattern_date_format = '\d{4}\-\d{2}\-\d{2}'
         pattern_file_extensions = '\.tar\.(bz2|gz)'
 
-        pattern_valid_filename = '^{0}\-{1}\-({3}|{4}|{5}){2}$'.format(hostname, pattern_date_format, pattern_file_extensions, self.__monthly, self.__weekly, self.__daily)
-        pattern_monthly = '^{0}\-{1}\-{3}{2}$'.format(hostname, pattern_date_format, pattern_file_extensions, self.__monthly)
-        pattern_weekly = '^{0}\-{1}\-{3}{2}$'.format(hostname, pattern_date_format, pattern_file_extensions, self.__weekly)
-        pattern_daily = '^{0}\-{1}\-{3}{2}$'.format(hostname, pattern_date_format, pattern_file_extensions, self.__daily)
-
-        pattern_split_hostname = '^{0}\-'.format(hostname)
-        pattern_split_ending = '\-({1}|{2}|{3}){0}$'.format(pattern_file_extensions, self.__monthly, self.__weekly, self.__daily)
+        pattern_valid_filename = '^{0}\-{1}\-({3}|{4}|{5}){2}$'.format(prefix_name, pattern_date_format, pattern_file_extensions, self.__monthly, self.__weekly, self.__daily)
+        pattern_monthly = '^{0}\-{1}\-{3}{2}$'.format(prefix_name, pattern_date_format, pattern_file_extensions, self.__monthly)
+        pattern_weekly = '^{0}\-{1}\-{3}{2}$'.format(prefix_name, pattern_date_format, pattern_file_extensions, self.__weekly)
+        pattern_daily = '^{0}\-{1}\-{3}{2}$'.format(prefix_name, pattern_date_format, pattern_file_extensions, self.__daily)
 
         backup_files_monthly = []
         backup_files_weekly = []
@@ -166,6 +163,8 @@ class Backup:
             print "removing {file}".format(file=old_file)
             full_path = os.path.join(self.dest, old_file)
             os.remove(full_path)
+        else:
+            print "No archive to clean up"
 
     def process(self):
         print '{datetime}: Begin {name} {type} backup process...'.format(name=self.name, type=self.__backup_type(), datetime=self.datetime)
