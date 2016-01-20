@@ -159,12 +159,13 @@ class Backup:
             for i in range(self.__num_file_daily, len(backup_files_daily)):
                 to_be_remove.append(backup_files_daily[i])
 
-        for old_file in to_be_remove:
-            print "removing {file}".format(file=old_file)
-            full_path = os.path.join(self.dest, old_file)
-            os.remove(full_path)
-        else:
+        if not to_be_remove:
             print "No archive to clean up"
+        else:
+            for old_file in to_be_remove:
+                print "removing {file}".format(file=old_file)
+                full_path = os.path.join(self.dest, old_file)
+                os.remove(full_path)
 
     def process(self):
         print '{datetime}: Begin {name} {type} backup process...'.format(name=self.name, type=self.__backup_type(), datetime=self.datetime)
