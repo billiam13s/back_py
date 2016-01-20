@@ -113,8 +113,8 @@ class Backup:
 
         os.chdir(base_dir)
 
-    def __house_cleanning(self):
-        print 'Cleanning up {name} old archives'.format(name=self.name)
+    def __house_cleaning(self):
+        print 'Cleaning up {name} old archives'.format(name=self.name)
 
         prefix_name = re.escape('{hostname}-{name}'.format(hostname=self.hostname, name=self.name))
 
@@ -181,7 +181,7 @@ class Backup:
 
             self.__archive()
 
-            self.__house_cleanning()
+            self.__house_cleaning()
 
         except Exception as e:
             print e
