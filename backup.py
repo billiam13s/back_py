@@ -129,7 +129,7 @@ class Backup:
         backup_files_monthly = []
         backup_files_weekly = []
         backup_files_daily = []
-        to_be_remove = []
+        to_be_removed = []
         # check directory items. If its a file put into backup_files
         for item in os.listdir(self.dest):
             full_path = os.path.join(self.dest, item)
@@ -147,22 +147,22 @@ class Backup:
         if len(backup_files_monthly) > self.__num_file_monthly:
             backup_files_monthly.sort(reverse=True)
             for i in range(self.__num_file_monthly, len(backup_files_monthly)):
-                to_be_remove.append(backup_files_monthly[i])
+                to_be_removed.append(backup_files_monthly[i])
 
         if len(backup_files_weekly) > self.__num_file_weekly:
             backup_files_weekly.sort(reverse=True)
             for i in range(self.__num_file_weekly, len(backup_files_weekly)):
-                to_be_remove.append(backup_files_weekly[i])
+                to_be_removed.append(backup_files_weekly[i])
 
         if len(backup_files_daily) > self.__num_file_daily:
             backup_files_daily.sort(reverse=True)
             for i in range(self.__num_file_daily, len(backup_files_daily)):
-                to_be_remove.append(backup_files_daily[i])
+                to_be_removed.append(backup_files_daily[i])
 
-        if not to_be_remove:
+        if not to_be_removed:
             print "No archive to clean up"
         else:
-            for old_file in to_be_remove:
+            for old_file in to_be_removed:
                 print "removing {file}".format(file=old_file)
                 full_path = os.path.join(self.dest, old_file)
                 os.remove(full_path)
